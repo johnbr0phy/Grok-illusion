@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulsing Spiral Illusion</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="illusionCanvas" width="500" height="500"></canvas>
+
+    <script>
+        const canvas = document.getElementById('illusionCanvas');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        let angle = 0;
+
+        function drawSpiral() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw a rotating spiral
+            for (let i = 0; i < 360; i += 5) {
+                const rad = (i + angle) * Math.PI / 180;
+                const radius = i / 2; // Spiral grows outward
+                const x = centerX + radius * Math.cos(rad);
+                const y = centerY + radius * Math.sin(rad);
+                
+                // Alternate black and white for high contrast
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fillStyle = i % 10 === 0 ? 'black' : 'white';
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            // Increment angle for rotation
+            angle += 2; // Adjust speed here (higher = faster)
+            if (angle >= 360) angle = 0;
+
+            // Animation loop
+            requestAnimationFrame(drawSpiral);
+        }
+
+        // Start the animation
+        drawSpiral();
+    </script>
+</body>
+</html>
